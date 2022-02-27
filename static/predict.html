@@ -38,14 +38,22 @@
                     <div class="custom-file">
                         <label class="custom-file-label" for="validatedCustomFile">Select a png image file to start
                             prediction...</label>
-                        <input type="file" id="image-selector" class="custom-file-input" id="validatedCustomFile"
+                        <!-- <input type="file" id="image-selector" class="custom-file-input" id="validatedCustomFile" name = "file"
+                            required> -->
+                            <form action = "http://localhost:5000/predict" method = "POST" 
+                                enctype = "multipart/form-data">
+                                <input type="file" id="image-selector" class="custom-file-input" id="validatedCustomFile" name = "file"
                             required>
+                            <div class="col px-lg-5">
+                                <input type="submit" id="predict-button" class="btn btn-success btn-lg" value="Predict Emotion" />
+            
+                            </div>
+                            </form>   
+
+
                     </div>
                 </div>
-                <div class="col px-lg-5">
-                    <button id="predict-button" class="btn btn-success btn-lg">Predict</button><br>
-
-                </div>
+                
             </div>
             <div class="row">
                 <!-- Displaying selected image by user -->
@@ -70,22 +78,26 @@
             $("#image-selector").change(function () {
                 let reader = new FileReader();
                 reader.onload = function (e) {
-                    let dataURL = reader.result;
+                dataURL = reader.result;
                     $('#selected-image').attr("src", dataURL);
-                    base64Image = dataURL.replace("data:image/png;base64,", "");
+                    // base64Image = dataURL.replace("data:image/png;base64,", "");
                     // console.log(base64Image);
                 }
                 reader.readAsDataURL($("#image-selector")[0].files[0])
             });
 
+            
+
             // Sends post request to the backend with image as input
             $("#predict-button").click(function (event) {
                 let message = {
-                    image: base64Image
+                    image: dataURL
+                    
                 }
+                console.log("aaaaaaaaaaaaaaa",message)
 
                 // Display the response recieved from thee backend
-                $.post("http://127.0.0.1:5000/predict", JSON.stringify(message), function (response) {
+                $.post("http://127.0.0.1:5000/predict", JSON.stringify(dataURL), function (response) {
                     $("#prediction").text(response.predicted_class);
                     // console.log(response);
                 });
