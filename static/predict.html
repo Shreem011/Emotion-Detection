@@ -17,17 +17,15 @@
         <!-- Main jumbotron for a primary marketing message or call to action -->
         <div class="jumbotron">
             <div class="container">
-                <h1 class="h1">Cifar-10 Image Classifier using Transfer Learning</h1>
+                <h1 class="h1">EMOTION DETECTION AND MUSIC RECOMMENDATION SYSTEM</h1>
                 <hr>
                 <p>This demo uses <strong>Resnet20v1</strong>. You can read more about it <a
-                        href="https://keras.io/examples/cifar10_resnet/">here.</a> Also this can be base repository for
-                    deploying any model as a web service.</p>
-                <p>You can learn how to create flask app to deploy a model as a web service from <a
-                        href="https://youtu.be/SI1hVGvbbZ4">here.</a></p>
-                <p><a class="btn btn-primary" href="https://www.cs.toronto.edu/~kriz/cifar.html" role="button">Learn
+                        href="https://keras.io/">here.</a> </p>
+                <p>You can learn more about emotion detection system and technique from here  </p>
+                <p><a class="btn btn-primary" href="https://recfaces.com/articles/emotion-recognition" role="button">Learn
                         more &raquo;</a></p>
-                <p>This model can detect these classes <strong> airplane, automobile, bird, cat, deer, dog, frog, horse,
-                        ship, truck.</strong></p>
+                <p>This model can detect these classes of emotions <strong> angry', 'disgust', 'fear', 
+                    'happy', 'sad', 'surprise', 'neutral'</strong></p>
             </div>
         </div>
 
@@ -36,7 +34,7 @@
                 <div class="col-sm-6 px-lg-5">
                     <!-- Image file input -->
                     <div class="custom-file">
-                        <label class="custom-file-label" for="validatedCustomFile">Select a png image file to start
+                        <label class="custom-file-label" for="validatedCustomFile">Select any image file(png or jpg) to start
                             prediction...</label>
                         <!-- <input type="file" id="image-selector" class="custom-file-input" id="validatedCustomFile" name = "file"
                             required> -->
@@ -66,8 +64,18 @@
                 </div>
                 <!-- Prediction will be displayed here -->
                 <div class="col py-3 px-lg-5">
-                    Predicted class:<p id="prediction" class="display-1"></p>
+                   
+                    <b>Predicted class</b>
+                    <h3></h3>
+                    <h3 id="prediction" class="display-1">{{ data }}</h3>
                 </div>
+
+                <div>
+                    {% if (data != " ") %}
+                   <button id="recommend-button" class="btn btn-info btn-lg">Recommend Music</button>
+                    {% endif %}
+                </div>
+               
 
             </div>
         </div>
@@ -89,18 +97,60 @@
             
 
             // Sends post request to the backend with image as input
-            $("#predict-button").click(function (event) {
-                let message = {
-                    image: dataURL
-                    
-                }
-                console.log("aaaaaaaaaaaaaaa",message)
+            $("#recommend-button").click(function (event) {
+               var emotion = $("#prediction").text()
 
+               happyurl = ["https://www.youtube.com/watch?v=EonqoTkPIPE",
+                            "https://www.youtube.com/watch?v=pRbxlpvXw2s",
+                            "https://www.youtube.com/watch?v=ZbZSe6N_BXs",
+                            "https://www.youtube.com/watch?v=6LCclEmBllI"]
+
+                someurl = ["https://www.youtube.com/watch?v=EonqoTkPIPE",
+                            "https://www.youtube.com/watch?v=pRbxlpvXw2s",
+                            "https://www.youtube.com/watch?v=ZbZSe6N_BXs",
+                            "https://www.youtube.com/watch?v=6LCclEmBllI"]
+               
+               switch(emotion) {
+                case "happy":
+                window.open(
+                    happyurl[Math.floor(Math.random()*happyurl.length)], "_blank");
+                    break;
+                case "anger":
+                window.open(
+                    "https://www.youtube.com/watch?v=7d__oeHVZnE", "_blank");
+                    break;
+                case "sad":
+                window.open(
+                    "https://www.youtube.com/watch?v=dTxTUDL4A-E", "_blank");
+                    break;
+                case "fear":
+                window.open(
+                    "https://www.youtube.com/watch?v=nrx5jm8Sb2Y", "_blank");
+                    break;
+                case "disgust":
+                window.open(
+                    "https://www.youtube.com/watch?v=fmMUCMesVtE", "_blank");
+                    break;
+                case "surprise":
+                window.open(
+                    "https://www.youtube.com/watch?v=tF5kr251BRs", "_blank");
+                    break;
+                case "neutral":
+                window.open(
+                    "https://www.youtube.com/watch?v=6GADpWQgsb0", "_blank");
+                    break;
+                default:
+                    alert("Sorry!!!")
+                }
+                
+                window.open(
+              "https://www.geeksforgeeks.org", "_blank");
+            
+                // if(data == "happy")
                 // Display the response recieved from thee backend
-                $.post("http://127.0.0.1:5000/predict", JSON.stringify(dataURL), function (response) {
-                    $("#prediction").text(response.predicted_class);
+                // $.get("http://127.0.0.1:5000/recommend", JSON.stringify("data")
                     // console.log(response);
-                });
+                // );
             });
         </script>
 </body>

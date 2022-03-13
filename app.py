@@ -22,6 +22,9 @@ from keras.preprocessing.image import ImageDataGenerator
 from keras.preprocessing.image import img_to_array
 from keras.preprocessing import image
 import matplotlib.pyplot as plt
+import urllib.request
+import webbrowser
+
 
 
 imread = imageio.imread
@@ -105,20 +108,31 @@ def predict():
 	result = np.where(custom[0]==max(custom[0]))
 	print(result[0][0])
 
-	objects = ['angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral']
+	objects = [ 'angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral']
 	emotion = objects[result[0][0]]
 
 	response = {
-		'predicted_class' : emotion
+		'predicted_class' : emotion		 
 	}
-	
+	# get_url= urllib.request.urlopen('https://www.google.com/')
+	# print("Response Status: "+ str(get_url.getcode()) )
+	# get_url= webbrowser.open('https://www.google.com/')
+	return render_template('predict.html',data = emotion)
 
-	return jsonify(response)
+# recommendation route
+@app.route('/recommend', methods=['POST','GET'])
+
+def recommend():
+
+	emotion = request.get_json(force=True)
+	print("emotion")
+
+
 
 # Default app route
 @app.route('/')
 def hello():
-	return render_template('predict.html')
+	return render_template('predict.html', data = " ")
 
 @app.route('/hello', methods = ['POST'])
 def hi():
@@ -127,7 +141,13 @@ def hi():
 	response = {
 		'greeting' : 'Hello, ' + name + '!'
 	}
-	return jsonify(response)
+	#return jsonify(response)
 
 if __name__ == '__main__':
     app.run()
+
+
+
+
+	 
+
