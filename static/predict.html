@@ -100,15 +100,44 @@
             $("#recommend-button").click(function (event) {
                var emotion = $("#prediction").text()
 
-               happyurl = ["https://www.youtube.com/watch?v=EonqoTkPIPE",
+                happyurl = ["https://www.youtube.com/watch?v=EonqoTkPIPE",
                             "https://www.youtube.com/watch?v=pRbxlpvXw2s",
                             "https://www.youtube.com/watch?v=ZbZSe6N_BXs",
-                            "https://www.youtube.com/watch?v=6LCclEmBllI"]
+                            "https://www.youtube.com/watch?v=6LCclEmBllI",
+                            "https://www.youtube.com/watch?v=HCWdQJqhABg"]
 
-                someurl = ["https://www.youtube.com/watch?v=EonqoTkPIPE",
-                            "https://www.youtube.com/watch?v=pRbxlpvXw2s",
-                            "https://www.youtube.com/watch?v=ZbZSe6N_BXs",
-                            "https://www.youtube.com/watch?v=6LCclEmBllI"]
+                angerurl = ["https://www.youtube.com/watch?v=4dNIsfYdig8",
+                            "https://www.youtube.com/watch?v=7d__oeHVZnE&t=4s",
+                            "https://www.youtube.com/watch?v=DvdGAUYwzso",
+                            "https://www.youtube.com/watch?v=nzxjYQ8aZuk",
+                            "https://www.youtube.com/watch?v=QloMdg2bapw"]
+
+                sadurl = ["https://www.youtube.com/watch?v=SIHDpxLA-kE",
+                            "https://www.youtube.com/watch?v=AkBLnEqmkqU",
+                            "https://www.youtube.com/watch?v=Ia568dpMIQc",
+                            "https://www.youtube.com/watch?v=aWIE0PX1uXk",
+                            "https://www.youtube.com/watch?v=FskL-2jrgF0"]  
+
+                fearurl = ["https://www.youtube.com/watch?v=v2DeDqYFO6E",
+                            "https://www.youtube.com/watch?v=mlLGwW7eHTI",
+                            "https://www.youtube.com/watch?v=OuaQDV_nSiM",
+                            "https://www.youtube.com/watch?v=0FPwyV4XlGc",
+                            "https://www.youtube.com/watch?v=VagES3pxttQ"]   
+
+                disgusturl = ["https://www.youtube.com/watch?v=uMCSdgkdOJc",
+                            "https://www.youtube.com/watch?v=bEoxxzagiwQ",
+                            "https://www.youtube.com/watch?v=DMCDm7or7u4",
+                            "https://www.youtube.com/watch?v=z_m5VoytV1Q",
+                            "https://www.youtube.com/watch?v=h5-SQJvvIBI"]  
+
+                surpriseurl = ["https://www.youtube.com/watch?v=nloEpCXS9Xc",                    
+                            "https://www.youtube.com/watch?v=R5gg8h3kBqs"] 
+
+                neutralurl = ["https://www.youtube.com/watch?v=sjkrrmBnpGE&t=3s",
+                            "https://www.youtube.com/watch?v=vLEek3I3wac",
+                            "https://www.youtube.com/watch?v=u2RvqKCn7S4",
+                            "https://www.youtube.com/watch?v=F5Tt3LoygCQ",
+                            "https://www.youtube.com/watch?v=0U02UsDg-IM"]    
                
                switch(emotion) {
                 case "happy":
@@ -117,27 +146,27 @@
                     break;
                 case "anger":
                 window.open(
-                    "https://www.youtube.com/watch?v=7d__oeHVZnE", "_blank");
+                    angerurl[Math.floor(Math.random()*angerurl.length)], "_blank");
                     break;
                 case "sad":
                 window.open(
-                    "https://www.youtube.com/watch?v=dTxTUDL4A-E", "_blank");
+                    sadurl[Math.floor(Math.random()*sadurl.length)], "_blank");
                     break;
                 case "fear":
                 window.open(
-                    "https://www.youtube.com/watch?v=nrx5jm8Sb2Y", "_blank");
+                    fearurl[Math.floor(Math.random()*fearurl.length)], "_blank");
                     break;
                 case "disgust":
                 window.open(
-                    "https://www.youtube.com/watch?v=fmMUCMesVtE", "_blank");
+                    disgusturl[Math.floor(Math.random()*disgusturl.length)], "_blank");
                     break;
                 case "surprise":
                 window.open(
-                    "https://www.youtube.com/watch?v=tF5kr251BRs", "_blank");
+                    surpriseurl[Math.floor(Math.random()*surpriseurl.length)], "_blank");
                     break;
                 case "neutral":
                 window.open(
-                    "https://www.youtube.com/watch?v=6GADpWQgsb0", "_blank");
+                    neutralurl[Math.floor(Math.random()*neutralurl.length)], "_blank");
                     break;
                 default:
                     alert("Sorry!!!")
