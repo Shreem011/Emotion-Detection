@@ -43,10 +43,11 @@
                                 <input type="file" id="image-selector" class="custom-file-input" id="validatedCustomFile" name = "file"
                             required>
                             <div class="col px-lg-5">
-                                <input type="submit" id="predict-button" class="btn btn-success btn-lg" value="Predict Emotion" />
-            
+                                <input type="submit" id="predict-button" class="btn btn-success btn-lg" value="Predict Emotion" style="margin: 2 2 2 2;" />
+                                
                             </div>
                             </form>   
+                            <a href="/video"><button id="live-button" class="btn btn-success btn-lg" value="Live Camera" style="margin: 2 2 2 2;">Predict my Emotion</button></a>
 
 
                     </div>
@@ -172,14 +173,17 @@
                     alert("Sorry!!!")
                 }
                 
-                window.open(
-              "https://www.geeksforgeeks.org", "_blank");
-            
+              
                 // if(data == "happy")
                 // Display the response recieved from thee backend
                 // $.get("http://127.0.0.1:5000/recommend", JSON.stringify("data")
                     // console.log(response);
                 // );
+            });
+
+            $("#live-button").click(function (event) {
+               
+
             });
         </script>
 </body>

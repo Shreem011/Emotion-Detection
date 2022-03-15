@@ -1,3 +1,4 @@
+from urllib import response
 from flask import Flask, render_template, request, jsonify
 
 
@@ -25,6 +26,9 @@ import matplotlib.pyplot as plt
 import urllib.request
 import webbrowser
 
+from threading import Thread
+
+
 
 
 imread = imageio.imread
@@ -38,8 +42,12 @@ template_path = os.path.join(project_root, './static/')
 app = Flask(__name__, template_folder=template_path)
 
 def get_model():
-	global emotion_model
+	global emotion_model, model,face_haar_cascade
 	emotion_model = load_model('./model/model.h5')
+	model = load_model('./model/bmodel.h5')
+
+
+	face_haar_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_alt.xml')
 	# model._make_predict_function() # It gives TensorFlow error if this is omitted.
 	print('Model Loaded!')
 
@@ -119,13 +127,53 @@ def predict():
 	# get_url= webbrowser.open('https://www.google.com/')
 	return render_template('predict.html',data = emotion)
 
+def funct(emotion):
+	return render_template('predict.html',data = emotion)
+
 # recommendation route
-@app.route('/recommend', methods=['POST','GET'])
+@app.route('/video', methods=['POST','GET'])
 
-def recommend():
+def video():
+    cap = cv2.VideoCapture(0)
+    count = 0
+    while True:
+        ret, test_img = cap.read()  # captures frame and returns boolean value and captured image
+        if not ret:
+            continue
+        gray_img = cv2.cvtColor(test_img, cv2.COLOR_BGR2RGB)
 
-	emotion = request.get_json(force=True)
-	print("emotion")
+        faces_detected = face_haar_cascade.detectMultiScale(gray_img, 1.32, 5)
+        count = count+1
+        cv2.imwrite("frame%d.jpg"%count, test_img) 
+        for (x, y, w, h) in faces_detected:
+            cv2.rectangle(test_img, (x, y), (x + w, y + h), (255, 0, 0), thickness=7)
+            roi_gray = gray_img[y:y + w, x:x + h]  # cropping region of interest i.e. face area from  image
+            img = image.load_img("./frame%d.jpg"%count, color_mode="grayscale", target_size=(48,48))
+            img_pixels = image.img_to_array(img)
+            img_pixels = np.expand_dims(img_pixels, axis=0)
+            img_pixels /= 255
+
+            predictions = model.predict(img_pixels)
+
+            # find max indexed array
+            max_index = np.argmax(predictions[0])
+
+            emotions = ( 'angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral')
+            predicted_emotion = emotions[max_index]
+            t = Thread(target=funct, args=(predicted_emotion,))
+            t.start()
+
+			
+            cv2.putText(test_img, predicted_emotion, (int(x), int(y)), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+        resized_img = cv2.resize(test_img, (1000, 700))
+        cv2.imshow('Facial emotion analysis ', resized_img)
+        os.remove("./frame%d.jpg"%count)
+        if cv2.waitKey(10) == ord('q'):  # wait until 'q' key is pressed
+            break
+
+    cap.release()
+    cv2.destroyAllWindows
+    return render_template('predict.html',data = " ")
 
 
 
